@@ -1,6 +1,6 @@
 // dbWorker.js
 
-const { parentPort } = require('worker_threads');
+const { parentPort } = require("worker_threads");
 const admin = require("firebase-admin");
 
 //firebase credentials
@@ -12,7 +12,7 @@ const firebaseConfig = {
   storageBucket: "webcrawler-d8716.appspot.com",
   messagingSenderId: "54973578684",
   appId: "1:54973578684:web:0e2094dd9b535730597fb9",
-  measurementId: "G-DFWTPT9L1W"
+  measurementId: "G-DFWTPT9L1W",
 };
 
 // Initialize Firebase
@@ -26,11 +26,14 @@ parentPort.once("message", (message) => {
 
   const currDate = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
   // store data gotten from main thread in database
-  db.collection("Rates").doc(currDate).set({
-    rates: JSON.stringify(message)
-  }).then(() => {
-    // send data back to main thread if operation was successful
-    parentPort.postMessage("Data saved successfully");
-  })
-    .catch((err) => console.log(err))
+  db.collection("Rates")
+    .doc(currDate)
+    .set({
+      rates: JSON.stringify(message),
+    })
+    .then(() => {
+      // send data back to main thread if operation was successful
+      parentPort.postMessage("Data saved successfully");
+    })
+    .catch((err) => console.log(err));
 });
