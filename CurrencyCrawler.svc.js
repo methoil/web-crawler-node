@@ -5,7 +5,7 @@ const url = "https://www.iban.com/exchange-rates";
 
 const workDir = __dirname + "/dbWorker.js";
 
-class CurrencyCrawler {
+module.exports = class CurrencyCrawler {
   static async spawnWroker() {
     const res = await this.formatTable();
 
@@ -39,7 +39,7 @@ class CurrencyCrawler {
       let newStr = title.split("\t"); // convert text (string) into an array
       newStr.shift(); // strip off empty array element at index 0
       console.log(newStr); // show output for currency
-      this.formatStr(newStr, dataObj); // format array string and store in an object
+      CurrencyCrawler.formatStr(newStr, dataObj); // format array string and store in an object
     });
 
     return dataObj;
@@ -63,4 +63,4 @@ class CurrencyCrawler {
     let newArr = arr[0].split(regExp); // split array element 0 using the regExp rule
     dataObj[newArr[1]] = newArr[2]; // store object
   }
-}
+};
