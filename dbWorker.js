@@ -17,13 +17,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 admin.initializeApp(firebaseConfig);
-let db = admin.firestore();
-// get current data in DD-MM-YYYY format
-let date = new Date();
-let currDate = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
+const db = admin.firestore();
+const date = new Date();
+
 // recieve crawled data from main thread
 parentPort.once("message", (message) => {
   console.log("Recieved data from mainWorker...");
+
+  const currDate = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
   // store data gotten from main thread in database
   db.collection("Rates").doc(currDate).set({
     rates: JSON.stringify(message)
